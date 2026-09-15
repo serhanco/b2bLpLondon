@@ -405,6 +405,18 @@
           </div>
 
           <div class="field">
+            <label class="sr-only" for="source">How did you hear about us?</label>
+            <select class="control" id="source" name="source">
+              <option value="" selected disabled>How did you hear about us? (Optional)</option>
+              <option>Search Engine (Google, Bing, etc.)</option>
+              <option>Social Media (LinkedIn, Instagram, etc.)</option>
+              <option>Recommendation / Word of Mouth</option>
+              <option>Event / Conference</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
             <label class="sr-only" for="message">How can we help?</label>
             <textarea class="control" id="message" name="message" rows="2" placeholder="How can we help? (e.g., I have a patient case to share, I want to book an office meeting...)"></textarea>
           </div>
@@ -679,10 +691,15 @@
     if(!consent) ok=false;
     if(!ok){ var ff=form.querySelector(".invalid .control, .invalid .phone-wrap input"); (ff||document.getElementById("consent")).focus(); return; }
 
+    var finalMessage = form.message.value.trim();
+    if (form.source && form.source.value) {
+      finalMessage += (finalMessage ? " | " : "") + "Source: " + form.source.value;
+    }
+
     var payload = Object.assign({
       role: roleVal, name:name, email:email,
       phone: form.country_code.value + " " + phone,
-      volume: form.volume.value, message: form.message.value.trim(),
+      volume: form.volume.value, message: finalMessage,
       submitted_at: new Date().toISOString()
     }, getParams());
 
