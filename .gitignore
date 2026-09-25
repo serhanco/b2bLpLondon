@@ -1,3 +1,5 @@
 api/db_connect.php
 api/db_error_log.txt
 .DS_Store
+*.py
+dynamic_router_test.php

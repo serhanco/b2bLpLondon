@@ -5,3 +5,23 @@
         Header set Expires "0"
     </IfModule>
 </FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Remove trailing slash (301 redirect) to prevent relative path issues
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+    # Exclude existing directories and files from rewrite
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Exclude the api and includes directory from routing
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteCond %{REQUEST_URI} !^/includes/
+    
+    # Rewrite clean URLs to index.php with slug parameter
+    RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?slug=$1 [L,QSA]
+</IfModule>

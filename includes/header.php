@@ -213,7 +213,7 @@ $topPhoneUrl = $topPhoneUrl ?? '<?= $topPhoneUrl ?>';
   /* Office split */
   .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
     .visual{position:relative;border-radius:20px;min-height:430px;overflow:hidden;box-shadow:var(--shadow);
-    background-image:linear-gradient(to top,rgba(6,32,79,.62),rgba(6,32,79,.06) 55%),url("assets/hq_office_optimized.jpg");
+    background-image:linear-gradient(to top,rgba(6,32,79,.62),rgba(6,32,79,.06) 55%),url("/assets/hq_office_optimized.jpg");
     background-size:cover;background-position:center}
   .badge-float{position:absolute;left:24px;bottom:24px;background:#fff;border-radius:14px;padding:16px 20px;box-shadow:var(--shadow)}
   .badge-float .n{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--navy);line-height:1.1}

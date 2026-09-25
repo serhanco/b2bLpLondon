@@ -1,10 +1,69 @@
 <?php
+$slug = isset($_GET['slug']) ? $_GET['slug'] : '';
+$isGlobal = empty($slug);
+
+$office = null;
+if (!$isGlobal) {
+    // Fetch from API
+    $apiData = @file_get_contents(__DIR__ . '/api/offices.json');
+    if ($apiData) {
+        $json = json_decode($apiData, true);
+        if (isset($json['data'])) {
+            foreach ($json['data'] as $officeItem) {
+                if ($officeItem['slug'] === $slug) {
+                    $office = $officeItem;
+                    break;
+                }
+            }
+        }
+    }
+    
+    // Fallback to global if slug not found
+    if (!$office) {
+        $isGlobal = true;
+    }
+}
+
+if ($isGlobal) {
+    $pageTitle = 'Acibadem International | Partner Program';
+    $topEmail = 'international@acibadem.com';
+    $topPhoneDisplay = '+90 216 444 5544';
+    $topPhoneUrl = '+902164445544';
+    
+    $supportEyebrow = 'Global Partnership Support';
+    $supportContactPoint = 'Istanbul';
+    $faqCoordinator = 'global';
+    $faqRoleQ = 'Istanbul HQ';
+    $faqRoleA = 'Istanbul HQ';
+    
+    $badgeTitle = 'Istanbul Headquarters';
+    $badgeAddress = 'Ataşehir, İstanbul';
+    
+    $contactH2 = 'Acibadem Headquarters';
+    $contactAddress = 'Atatürk Mah. Feza Sok. No:3 Ataşehir / İstanbul';
+    $contactMap = 'https://maps.google.com/?q=Acıbadem+Sağlık+Grubu+Genel+Müdürlüğü,+Ataşehir,+İstanbul';
+} else {
+    $pageTitle = 'Acibadem ' . htmlspecialchars($office['display_name']) . ' Office | Partner Program';
+    $topEmail = htmlspecialchars($office['email']);
+    $topPhoneDisplay = htmlspecialchars($office['phone']);
+    $topPhoneUrl = htmlspecialchars(str_replace(' ', '', $office['phone']));
+    
+    $supportEyebrow = htmlspecialchars($office['display_name']) . ' Office Support';
+    $supportContactPoint = htmlspecialchars($office['display_name']);
+    $faqCoordinator = htmlspecialchars(strtolower($office['display_name']));
+    $faqRoleQ = htmlspecialchars($office['display_name']) . ' office';
+    $faqRoleA = htmlspecialchars($office['display_name']) . ' office';
+    
+    $badgeTitle = htmlspecialchars($office['display_name']) . ' Office';
+    $badgeAddress = htmlspecialchars($office['address']);
+    
+    $contactH2 = 'Acibadem ' . htmlspecialchars($office['display_name']) . ' Office';
+    $contactAddress = htmlspecialchars($office['address']);
+    $contactMap = "https://www.google.com/maps/search/?api=1&query=" . urlencode($office['latitude'] . "," . $office['longitude']);
+}
+
 $pageLang = 'en';
-$pageTitle = 'Acibadem International | Partner Program';
 $gaID = 'G-1MRJMQ4L4G';
-$topEmail = 'international@acibadem.com';
-$topPhoneDisplay = '+90 216 444 5544';
-$topPhoneUrl = '+902164445544';
 include 'includes/header.php';
 ?>
 <main>
@@ -17,7 +76,7 @@ include 'includes/header.php';
         <p class="sub">Refer your complex cases to Acibadem Healthcare Group. We provide rapid MDT reviews, transparent treatment plans, and continuous clinical reporting back to your local practice.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#enquiry">Become a Partner →</a>
-          <a class="btn btn-ghost-light" href="tel:+902164445544">Or call +90 216 444 5544</a>
+          <a class="btn btn-ghost-light" href="tel:<?= $topPhoneUrl ?>">Or call <?= $topPhoneDisplay ?></a>
         </div>
         <div class="hero-badges">
           <div class="hero-badge">
@@ -140,7 +199,7 @@ include 'includes/header.php';
         <div class="form-msg" id="formError">
           <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#ff8a7a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
           <h3>Something went wrong</h3>
-          <p>We couldn't send your request. Please email <a href="mailto:international@acibadem.com">international@acibadem.com</a> or call <a href="tel:+902164445544">+90 216 444 5544</a>.</p>
+          <p>We couldn't send your request. Please email <a href="mailto:<?= $topEmail ?>"><?= $topEmail ?></a> or call <a href="tel:<?= $topPhoneUrl ?>"><?= $topPhoneDisplay ?></a>.</p>
         </div>
       </div>
     </div>
@@ -241,16 +300,16 @@ include 'includes/header.php';
     </div>
   </section>
 
-  <!-- Global Partnership Support -->
+  <!-- <?= $supportEyebrow ?> -->
   <section>
     <div class="wrap">
       <div class="sec-head" style="text-align:center;margin:0 auto 48px">
-        <p class="eyebrow">Global Partnership Support</p>
+        <p class="eyebrow"><?= $supportEyebrow ?></p>
         <h2>Dedicated support for referring clinics</h2>
         <p class="lead">Our Istanbul Headquarters is your local hub for seamless patient coordination.</p>
       </div>
       <div class="value">
-        <div class="vcard"><div class="vic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Dedicated Coordinator</h3><p>A single point of contact in Istanbul for every patient case.</p></div>
+        <div class="vcard"><div class="vic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Dedicated Coordinator</h3><p>A single point of contact in <?= $supportContactPoint ?> for every patient case.</p></div>
         <div class="vcard"><div class="vic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Fast Medical Review</h3><p>Rapid evaluation by the right Acibadem specialist or MDT.</p></div>
         <div class="vcard"><div class="vic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div><h3>Documented Opinions</h3><p>Clear, written medical feedback and treatment pathways.</p></div>
         <div class="vcard"><div class="vic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Transparent Pricing</h3><p>Clear, all-inclusive quotes with no hidden costs for patients.</p></div>
@@ -276,11 +335,11 @@ include 'includes/header.php';
         </details>
         <details>
           <summary>How do I track my patient's progress?</summary>
-          <div class="ans">Your dedicated global coordinator ensures you remain an integral part of the care journey, providing continuous updates and detailed post-treatment reports once the patient returns.</div>
+          <div class="ans">Your dedicated <?= $faqCoordinator ?> coordinator ensures you remain an integral part of the care journey, providing continuous updates and detailed post-treatment reports once the patient returns.</div>
         </details>
         <details>
-          <summary>What is the role of the Istanbul HQ?</summary>
-          <div class="ans">We act as your local hub. We handle secure file sharing, coordinate with our MDTs in Türkiye, manage patient travel logistics, and offer face-to-face meetings at our Istanbul HQ.</div>
+          <summary>What is the role of the <?= $faqRoleQ ?>?</summary>
+          <div class="ans">We act as your local hub. We handle secure file sharing, coordinate with our MDTs in Türkiye, manage patient travel logistics, and offer face-to-face meetings at our <?= $faqRoleA ?>.</div>
         </details>
         <details>
           <summary>Which treatments and specialties are available?</summary>
@@ -306,29 +365,29 @@ include 'includes/header.php';
   <section class="contact" id="contact">
     <div class="wrap inner">
       <div class="visual" role="img" aria-label="Acibadem Global Headquarters, 68 Great Portland Street">
-        <div class="badge-float"><div class="n">Istanbul Headquarters</div><div class="l">Ataşehir, İstanbul</div></div>
+        <div class="badge-float"><div class="n"><?= $badgeTitle ?></div><div class="l"><?= $badgeAddress ?></div></div>
       </div>
       <div>
         <p class="eyebrow">Contact</p>
-        <h2 style="font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:800;margin:.5rem 0 1.2rem">Acibadem Global Headquarters</h2>
+        <h2 style="font-size:clamp(1.6rem,3.2vw,2.1rem);font-weight:800;margin:.5rem 0 1.2rem"><?= $contactH2 ?></h2>
         <div class="cinfo">
           <div class="row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <div><div class="k">Address</div><div class="v"><a href="https://maps.google.com/?q=Acıbadem+Sağlık+Grubu+Genel+Müdürlüğü,+Ataşehir,+İstanbul" target="_blank" rel="noopener">Atatürk Mah. Feza Sok. No:3 Ataşehir / İstanbul</a></div></div>
+            <div><div class="k">Address</div><div class="v"><a href="<?= $contactMap ?>" target="_blank" rel="noopener"><?= $contactAddress ?></a></div></div>
           </div>
           <div class="row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-            <div><div class="k">Phone / WhatsApp</div><div class="v"><a href="tel:+902164445544">+90 216 444 5544</a> <br><a href="tel:+442073236665">+90 535 965 0466</a></div></div>
+            <div><div class="k">Phone / WhatsApp</div><div class="v"><a href="tel:<?= $topPhoneUrl ?>"><?= $topPhoneDisplay ?></a></div></div>
           </div>
           <div class="row">
             <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></div>
-        <div><div class="k">Email</div><div class="v"><a href="mailto:international@acibadem.com">international@acibadem.com</a></div></div>
+          <div><div class="k">Email</div><div class="v"><a href="mailto:<?= $topEmail ?>"><?= $topEmail ?></a></div></div>
       </div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
       <a class="btn btn-primary hide-mob" href="#enquiry">Become a Partner</a>
-      <a class="btn btn-navy hide-mob" href="tel:+902164445544">Call or WhatsApp</a>
-      <a class="btn btn-ghost" href="https://maps.google.com/?q=Acıbadem+Sağlık+Grubu+Genel+Müdürlüğü,+Ataşehir,+İstanbul" target="_blank" rel="noopener">View on Map</a>
+      <a class="btn btn-navy hide-mob" href="tel:<?= $topPhoneUrl ?>">Call or WhatsApp</a>
+      <a class="btn btn-ghost" href="<?= $contactMap ?>" target="_blank" rel="noopener">View on Map</a>
     </div>
   </div>
 </div>
@@ -337,7 +396,7 @@ include 'includes/header.php';
 
 
 <?php
-$formEndpoint = 'api/process_form.php';
-$mbarPhoneUrl = '+902164445544';
-include 'includes/footer.php';
+$formEndpoint = '/api/process_form.php';
+$mbarPhoneUrl = $topPhoneUrl;
+include __DIR__ . '/includes/footer.php';
 ?>
