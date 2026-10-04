@@ -30,6 +30,16 @@ CREATE TABLE `partnership_applications` (
   `volume` varchar(50) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `url` text DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `lang` varchar(10) DEFAULT NULL,
+  `office` varchar(100) DEFAULT NULL,
+  `utm_source` varchar(255) DEFAULT NULL,
+  `utm_medium` varchar(255) DEFAULT NULL,
+  `utm_campaign` varchar(255) DEFAULT NULL,
+  `utm_content` varchar(255) DEFAULT NULL,
+  `utm_term` varchar(255) DEFAULT NULL,
+  `gclid` varchar(255) DEFAULT NULL,
+  `referrer` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
