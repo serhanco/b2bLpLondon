@@ -1,0 +1,10 @@
+# Error logs and local config are not meant to be downloaded.
+<FilesMatch "\.(txt|log)$|^(db_connect|mail_config|lead_mail)\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
