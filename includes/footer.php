@@ -1,34 +1,45 @@
 <?php
-$formEndpoint = $formEndpoint ?? 'api/process_form.php';
+$formEndpoint = $formEndpoint ?? '/api/process_form.php';
 $mbarPhoneUrl = $mbarPhoneUrl ?? '+902164445544';
+$officeSlug = $officeSlug ?? '';
 ?>
 <footer class="site">
   <div class="legal">
-  <div class="disclaimer">
-    <div class="wrap">
-      <b>Advertisement feature.</b> This is a paid advertisement; Acibadem Global Headquarters is responsible for its content, and inclusion does not imply endorsement by the publication.
-      This information is intended for healthcare professionals worldwide and patients considering specialist review. It is general information only and does not constitute medical advice or a treatment recommendation; suitability is assessed individually after review. In an emergency, contact local emergency services.
+    <div class="disclaimer">
+      <div class="wrap">
+        <b><?= t('ad_label') ?></b> <?= t('ad_text') ?>
+      </div>
     </div>
   </div>
 </footer>
 
 <div class="mbar">
-  <a class="btn btn-primary" href="#enquiry">Partner Form</a>
-  <a class="btn btn-navy" href="tel:<?= $mbarPhoneUrl ?>">Call</a>
+  <a class="btn btn-primary" href="#enquiry"><?= t('mbar_form') ?></a>
+  <a class="btn btn-navy" href="tel:<?= $mbarPhoneUrl ?>"><?= t('mbar_call') ?></a>
 </div>
 
 <script>
 (function(){
   "use strict";
   var FORM_ENDPOINT = "<?= $formEndpoint ?>"; // Global referral endpoint
+  var PAGE = <?= json_encode(['lang' => $lang, 'office' => $officeSlug], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
+  var T = <?= json_encode([
+    'sending' => t_raw('sending'),
+    'clinical' => t_raw('message_placeholder_clinical'),
+    'patient' => t_raw('message_placeholder_patient'),
+  ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
+
+  // Close the language menu when clicking elsewhere.
+  var langsw = document.querySelector(".langsw");
+  if (langsw) document.addEventListener("click", function(e){ if (!langsw.contains(e.target)) langsw.removeAttribute("open"); });
 
   // role toggle adjusts the summary placeholder
   var role = document.getElementById("role"), msg = document.getElementById("message");
   function syncRole(){
     if(!role.value) return;
     msg.placeholder = role.value.indexOf("Physician") > -1 || role.value.indexOf("Manager") > -1
-      ? "Brief summary of the clinical situation (no patient identifiers needed at this stage)"
-      : "Briefly describe the condition and what you are looking for (e.g., a second opinion)";
+      ? T.clinical
+      : T.patient;
   }
   role.addEventListener("change", syncRole); syncRole();
 
@@ -57,19 +68,16 @@ $mbarPhoneUrl = $mbarPhoneUrl ?? '+902164445544';
     if(!consent) ok=false;
     if(!ok){ var ff=form.querySelector(".invalid .control, .invalid .phone-wrap input"); (ff||document.getElementById("consent")).focus(); return; }
 
-    var finalMessage = form.message.value.trim();
-    if (form.source && form.source.value) {
-      finalMessage += (finalMessage ? " | " : "") + "Source: " + form.source.value;
-    }
-
     var payload = Object.assign({
       role: roleVal, name:name, email:email,
       phone: form.country_code.value + " " + phone,
-      volume: form.volume.value, message: finalMessage,
+      volume: form.volume.value, message: form.message.value.trim(),
+      source: form.source ? form.source.value : "",
+      lang: PAGE.lang, office: PAGE.office,
       submitted_at: new Date().toISOString()
     }, getParams());
 
-    btn.disabled=true; btn.textContent="Sending…";
+    btn.disabled=true; btn.textContent=T.sending;
     fetch(FORM_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)})
       .then(function(r){ if(!r.ok) throw new Error("bad"); return r; })
       .then(function(){ form.style.display="none"; success.classList.add("show"); if(window.gtag) gtag("event","generate_lead",{role:payload.role}); })
