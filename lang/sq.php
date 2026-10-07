@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Kjo është një reklamë me pagesë; për përmbajtjen e saj përgjigjet Selia Qendrore Globale e Acibadem dhe publikimi i saj nuk nënkupton miratim nga publikimi. Ky informacion u drejtohet profesionistëve të shëndetësisë në mbarë botën dhe pacientëve që mendojnë për një vlerësim nga specialisti. Është vetëm informacion i përgjithshëm dhe nuk përbën këshillë mjekësore ose rekomandim trajtimi; përshtatshmëria vlerësohet individualisht pas shqyrtimit. Në rast urgjence, kontaktoni shërbimet lokale të urgjencës.',
     'mbar_form' => 'Formulari',
     'mbar_call' => 'Telefononi',
+
+    // Cookie consent
+    'cookie_text' => 'Përdorim cookie analitike për të kuptuar se si përdoret kjo faqe. Ato vendosen vetëm nëse pranoni.',
+    'cookie_accept' => 'Prano',
+    'cookie_reject' => 'Refuzo',
+    'cookie_settings' => 'Cilësimet e cookie-ve',
 ];

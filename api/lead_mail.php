@@ -62,6 +62,19 @@ function leadSmtpSend(array $smtp, $from, array $recipients, $message) {
     }
 }
 
+/** Ofis sayfasından gelen başvurular için ofisin e-postası (offices.json, slug ile). */
+function leadOfficeEmail($slug) {
+    if (!is_string($slug) || $slug === '') return '';
+    $json = json_decode((string) @file_get_contents(__DIR__ . '/offices.json'), true);
+    foreach (($json['data'] ?? []) as $office) {
+        if (($office['slug'] ?? null) === $slug) {
+            $email = trim((string) ($office['email'] ?? ''));
+            return filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
+        }
+    }
+    return '';
+}
+
 /**
  * @param array $lead Ham (HTML-escape edilmemiş) form alanları
  * @return bool Mail gönderildiyse true; kapalıysa veya hata olduysa false
@@ -72,6 +85,7 @@ function sendLeadMail(array $lead) {
     $mailEnabled = false;
     $mailTo = [];
     $mailCc = [];
+    $mailRouteToOffice = false;
     $mailFrom = '';
     $smtpHost = '';
     $smtpPort = 587;
@@ -84,6 +98,22 @@ function sendLeadMail(array $lead) {
 
     $toList = array_values(array_filter(array_map('trim', (array) $mailTo), function ($a) { return filter_var($a, FILTER_VALIDATE_EMAIL); }));
     $ccList = array_values(array_filter(array_map('trim', (array) $mailCc), function ($a) { return filter_var($a, FILTER_VALIDATE_EMAIL); }));
+    // Ofis sayfasından gelen başvuru o ofisin e-postasına da gider
+    if ($mailRouteToOffice) {
+        $officeEmail = leadOfficeEmail($lead['office']);
+        if ($officeEmail !== '') array_unshift($toList, $officeEmail);
+    }
+    // Aynı adres iki kez yazılmasın (To öncelikli)
+    $seen = [];
+    $unique = function ($list) use (&$seen) {
+        return array_values(array_filter($list, function ($a) use (&$seen) {
+            $k = strtolower($a);
+            if (isset($seen[$k])) return false;
+            return $seen[$k] = true;
+        }));
+    };
+    $toList = $unique($toList);
+    $ccList = $unique($ccList);
     if (!$toList) {
         logError("Mail gönderilmedi: mail_config.php içinde geçerli alıcı yok.");
         return false;

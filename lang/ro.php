@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Acesta este un anunț plătit; sediul global Acibadem este responsabil pentru conținutul său, iar publicarea nu implică susținerea din partea publicației. Informațiile se adresează profesioniștilor din domeniul sănătății din întreaga lume și pacienților care iau în considerare o evaluare de specialitate. Au caracter general și nu constituie sfat medical sau recomandare de tratament; oportunitatea se evaluează individual, după analiză. În caz de urgență, contactați serviciile locale de urgență.',
     'mbar_form' => 'Formular',
     'mbar_call' => 'Sunați',
+
+    // Cookie consent
+    'cookie_text' => 'Folosim cookie-uri de analiză pentru a înțelege cum este utilizată această pagină. Acestea sunt setate doar dacă acceptați.',
+    'cookie_accept' => 'Accept',
+    'cookie_reject' => 'Refuz',
+    'cookie_settings' => 'Setări cookie-uri',
 ];

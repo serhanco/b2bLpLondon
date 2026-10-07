@@ -31,6 +31,22 @@ if (!empty($data['company'])) {
     respond(200, ["status" => "ok"]);
 }
 
+// Spam koruması: imzalı form token'ı + IP başına hız sınırı (includes/form_guard.php)
+require_once __DIR__ . "/../includes/form_guard.php";
+$tokenState = fg_check_token($data['form_token'] ?? null);
+if ($tokenState === 'fast') {
+    // Sayfa açıldıktan saniyeler içinde gönderildi: bot. Başarılı görünsün, kaydedilmesin.
+    respond(200, ["status" => "ok"]);
+}
+if ($tokenState !== 'ok') {
+    // Sayfamızdan gelmeyen ya da çok eski bir form
+    respond(400, ["status" => "error", "message" => "Invalid form token"]);
+}
+if (!fg_rate_limit('form:' . fg_client_ip(), [3600 => 5, 86400 => 20])) {
+    logError("Hız sınırı aşıldı: " . fg_client_ip());
+    respond(429, ["status" => "error", "message" => "Too many requests"]);
+}
+
 // Ham değer: kırp, kontrol karakterlerini at (mesaj dışında satır sonlarını da), uzunluğu sınırla
 function field($data, $key, $max = 255, $multiline = false) {
     $v = $data[$key] ?? "";
@@ -63,6 +79,11 @@ $lead = [
 if ($lead['role'] === '' || $lead['name'] === '' || $lead['phone'] === ''
     || !filter_var($lead['email'], FILTER_VALIDATE_EMAIL)) {
     respond(422, ["status" => "error", "message" => "Missing or invalid fields"]);
+}
+
+// İsim alanında bağlantı olan başvurular spam botlarından gelir
+if (preg_match('~https?://|www\.~i', $lead['name'])) {
+    respond(200, ["status" => "ok"]);
 }
 
 // Başvurunun geldiği sayfa: önce Referer, yoksa formun bildirdiği yol

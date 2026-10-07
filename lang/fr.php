@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Ceci est une publicité payante ; le siège mondial d’Acibadem est responsable de son contenu, et sa diffusion n’implique aucune approbation de la part du support. Ces informations s’adressent aux professionnels de santé du monde entier et aux patients envisageant un avis spécialisé. Elles sont fournies à titre général et ne constituent ni un avis médical ni une recommandation de traitement ; l’indication est évaluée individuellement après examen. En cas d’urgence, contactez les services d’urgence locaux.',
     'mbar_form' => 'Formulaire',
     'mbar_call' => 'Appeler',
+
+    // Cookie consent
+    'cookie_text' => 'Nous utilisons des cookies d’analyse pour comprendre l’utilisation de cette page. Ils ne sont déposés que si vous les acceptez.',
+    'cookie_accept' => 'Accepter',
+    'cookie_reject' => 'Refuser',
+    'cookie_settings' => 'Paramètres des cookies',
 ];

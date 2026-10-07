@@ -25,6 +25,7 @@ if (!$isGlobal) {
 }
 
 require_once __DIR__ . '/includes/i18n.php';
+require_once __DIR__ . '/includes/form_guard.php';
 
 if ($isGlobal) {
     $officeSlug = '';
@@ -177,6 +178,7 @@ include 'includes/header.php';
             <textarea class="control" id="message" name="message" rows="2" placeholder="<?= t('message_placeholder') ?>"></textarea>
           </div>
 
+          <input type="hidden" name="form_token" value="<?= fg_token() ?>" />
           <div class="hp" aria-hidden="true"><label><?= t('honeypot_label') ?><input type="text" name="company" tabindex="-1" autocomplete="off" /></label></div>
 
           <label class="consent">

@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Bu bir ücretli reklamdır; içeriğinden Acıbadem Global Genel Merkezi sorumludur ve yayında yer alması yayın kuruluşunun onayı anlamına gelmez. Bu bilgiler dünya genelindeki sağlık profesyonellerine ve uzman değerlendirmesi düşünen hastalara yöneliktir. Yalnızca genel bilgi niteliğindedir; tıbbi tavsiye veya tedavi önerisi değildir. Uygunluk, değerlendirme sonrasında bireysel olarak belirlenir. Acil durumlarda yerel acil servislerle iletişime geçin.',
     'mbar_form' => 'Başvuru Formu',
     'mbar_call' => 'Ara',
+
+    // Cookie consent
+    'cookie_text' => 'Bu sayfanın nasıl kullanıldığını anlamak için analiz çerezleri kullanıyoruz. Bu çerezler yalnızca kabul ederseniz kullanılır.',
+    'cookie_accept' => 'Kabul et',
+    'cookie_reject' => 'Reddet',
+    'cookie_settings' => 'Çerez ayarları',
 ];

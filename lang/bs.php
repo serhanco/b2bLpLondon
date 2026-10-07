@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Ovo je plaćeni oglas; za njegov sadržaj odgovorno je globalno sjedište grupe Acibadem, a objava ne podrazumijeva podršku medija. Informacije su namijenjene zdravstvenim djelatnicima diljem svijeta i pacijentima koji razmatraju specijalističku procjenu. Riječ je isključivo o općim informacijama koje ne predstavljaju liječnički savjet ni preporuku za liječenje; prikladnost se procjenjuje individualno nakon pregleda. U hitnim slučajevima obratite se lokalnoj hitnoj službi.',
     'mbar_form' => 'Obrazac',
     'mbar_call' => 'Nazovite',
+
+    // Cookie consent
+    'cookie_text' => 'Koristimo analitičke kolačiće kako bismo razumjeli kako se ova stranica koristi. Postavljaju se samo ako prihvatite.',
+    'cookie_accept' => 'Prihvati',
+    'cookie_reject' => 'Odbij',
+    'cookie_settings' => 'Postavke kolačića',
 ];

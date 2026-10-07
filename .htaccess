@@ -25,3 +25,25 @@
     # Rewrite clean URLs to index.php with slug parameter
     RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?slug=$1 [L,QSA]
 </IfModule>
+
+# Speed: compress text responses and let browsers cache static files.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+</IfModule>
+
+# Images and fonts rarely change; give them a new file name when they do.
+<FilesMatch "\.(jpe?g|png|webp|gif|svg|ico|woff2?)$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=2592000"
+    </IfModule>
+</FilesMatch>
+<FilesMatch "\.(css|js)$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=604800"
+    </IfModule>
+</FilesMatch>
