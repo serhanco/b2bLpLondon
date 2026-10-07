@@ -10,6 +10,10 @@ $mailEnabled = false;
 $mailTo = ["leads@example.com"];
 $mailCc = [];
 
+// true: a lead from an office page (e.g. /wien) also goes to that office's email
+// from offices.json, in addition to $mailTo. HQ page leads go to $mailTo only.
+$mailRouteToOffice = true;
+
 // Sender address. Leave empty to use the SMTP user (or noreply@<current host>).
 $mailFrom = "";
 

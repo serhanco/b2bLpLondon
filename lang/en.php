@@ -180,4 +180,10 @@ return [
     'ad_text' => 'This is a paid advertisement; Acibadem Global Headquarters is responsible for its content, and inclusion does not imply endorsement by the publication. This information is intended for healthcare professionals worldwide and patients considering specialist review. It is general information only and does not constitute medical advice or a treatment recommendation; suitability is assessed individually after review. In an emergency, contact local emergency services.',
     'mbar_form' => 'Partner Form',
     'mbar_call' => 'Call',
+
+    // Cookie consent
+    'cookie_text' => 'We use analytics cookies to understand how this page is used. They are only set if you accept.',
+    'cookie_accept' => 'Accept',
+    'cookie_reject' => 'Reject',
+    'cookie_settings' => 'Cookie settings',
 ];

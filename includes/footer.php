@@ -8,6 +8,7 @@ $officeSlug = $officeSlug ?? '';
     <div class="disclaimer">
       <div class="wrap">
         <b><?= t('ad_label') ?></b> <?= t('ad_text') ?>
+        <button type="button" class="cookie-link" id="cookieSettings"><?= t('cookie_settings') ?></button>
       </div>
     </div>
   </div>
@@ -17,6 +18,46 @@ $officeSlug = $officeSlug ?? '';
   <a class="btn btn-primary" href="#enquiry"><?= t('mbar_form') ?></a>
   <a class="btn btn-navy" href="tel:<?= $mbarPhoneUrl ?>"><?= t('mbar_call') ?></a>
 </div>
+
+<div class="cookiebar" id="cookieBar" role="region" aria-label="<?= t('cookie_settings') ?>" hidden>
+  <p><?= t('cookie_text') ?></p>
+  <div class="cb-actions">
+    <button type="button" class="btn btn-navy" data-consent="denied"><?= t('cookie_reject') ?></button>
+    <button type="button" class="btn btn-primary" data-consent="granted"><?= t('cookie_accept') ?></button>
+  </div>
+</div>
+
+<script>
+// Cookie consent (Google Consent Mode v2; the default "denied" is set in header.php)
+(function(){
+  "use strict";
+  var bar = document.getElementById("cookieBar"), KEY = "cookie_consent", stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  if (stored !== "granted" && stored !== "denied") bar.hidden = false;
+
+  function clearGaCookies(){
+    var host = location.hostname.replace(/^www\./, "");
+    document.cookie.split(";").forEach(function(c){
+      var name = c.split("=")[0].trim();
+      if (/^_ga/.test(name)) {
+        ["", "; domain=" + host, "; domain=." + host].forEach(function(d){
+          document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+        });
+      }
+    });
+  }
+  bar.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-consent]");
+    if (!btn) return;
+    var choice = btn.getAttribute("data-consent");
+    try { localStorage.setItem(KEY, choice); } catch (err) {}
+    if (window.gtag) gtag("consent", "update", {analytics_storage: choice});
+    if (choice === "denied") clearGaCookies();
+    bar.hidden = true;
+  });
+  document.getElementById("cookieSettings").addEventListener("click", function(){ bar.hidden = false; });
+})();
+</script>
 
 <script>
 (function(){
@@ -74,6 +115,7 @@ $officeSlug = $officeSlug ?? '';
       volume: form.volume.value, message: form.message.value.trim(),
       source: form.source ? form.source.value : "",
       lang: PAGE.lang, office: PAGE.office,
+      form_token: form.form_token ? form.form_token.value : "",
       submitted_at: new Date().toISOString()
     }, getParams());
 

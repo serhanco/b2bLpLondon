@@ -6,3 +6,4 @@ dynamic_router_test.php
 api/mail_config.php
 api/sync_config.php
 api/offices.json.tmp
+api/admin_config.php

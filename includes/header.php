@@ -29,15 +29,23 @@ if ($lang === 'ar') {
 <!DOCTYPE html>
 <html lang="<?= $pageLang ?>" dir="<?= $pageDir ?>">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $gaID ?>"></script>
+<!-- Google tag (gtag.js) with Consent Mode v2: analytics storage stays off until the
+     visitor accepts in the cookie bar (includes/footer.php). -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+    analytics_storage: 'denied', wait_for_update: 500
+  });
+  gtag('set', 'url_passthrough', true);
+  gtag('set', 'ads_data_redaction', true);
+  try { if (localStorage.getItem('cookie_consent') === 'granted') gtag('consent', 'update', {analytics_storage: 'granted'}); } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', '<?= $gaID ?>');
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $gaID ?>"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title><?= $pageTitle ?></title>
@@ -237,6 +245,7 @@ if ($lang === 'ar') {
   .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
     .visual{position:relative;border-radius:20px;min-height:430px;overflow:hidden;box-shadow:var(--shadow);
     background-image:linear-gradient(to top,rgba(6,32,79,.62),rgba(6,32,79,.06) 55%),url("/assets/hq_office_optimized.jpg");
+    background-image:linear-gradient(to top,rgba(6,32,79,.62),rgba(6,32,79,.06) 55%),image-set(url("/assets/hq_office_optimized.webp") type("image/webp"),url("/assets/hq_office_optimized.jpg") type("image/jpeg"));
     background-size:cover;background-position:center}
   .badge-float{position:absolute;left:24px;bottom:24px;background:#fff;border-radius:14px;padding:16px 20px;box-shadow:var(--shadow)}
   .badge-float .n{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--navy);line-height:1.1}
@@ -350,6 +359,16 @@ if ($lang === 'ar') {
     .mbar{display:flex}
     body{padding-bottom:64px}
   }
+  /* Cookie consent bar */
+  .cookiebar{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;max-width:720px;margin:0 auto;background:#fff;color:var(--ink);
+    border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .cookiebar[hidden]{display:none}
+  .cookiebar p{margin:0;flex:1 1 280px;font-size:.88rem;color:var(--muted)}
+  .cookiebar .cb-actions{display:flex;gap:10px;flex:0 0 auto}
+  .cookiebar .btn{padding:.6rem 1.1rem;font-size:.86rem}
+  .cookie-link{background:none;border:0;padding:0;margin-inline-start:6px;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
+  @media(max-width:620px){.cookiebar{left:8px;right:8px;bottom:8px}.cookiebar .cb-actions{width:100%}.cookiebar .btn{flex:1;justify-content:center}}
+
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 <?php if ($fontVars): ?>

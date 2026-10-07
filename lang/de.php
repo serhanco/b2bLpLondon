@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Dies ist eine bezahlte Anzeige; für den Inhalt ist der Acibadem-Hauptsitz verantwortlich, und die Veröffentlichung stellt keine Empfehlung durch das Medium dar. Diese Informationen richten sich an medizinisches Fachpersonal weltweit sowie an Patienten, die eine fachärztliche Begutachtung in Betracht ziehen. Sie dienen nur der allgemeinen Information und stellen weder eine medizinische Beratung noch eine Behandlungsempfehlung dar; die Eignung wird nach Prüfung individuell beurteilt. Wenden Sie sich im Notfall an den örtlichen Rettungsdienst.',
     'mbar_form' => 'Partnerformular',
     'mbar_call' => 'Anrufen',
+
+    // Cookie consent
+    'cookie_text' => 'Wir verwenden Analyse-Cookies, um zu verstehen, wie diese Seite genutzt wird. Sie werden nur gesetzt, wenn Sie zustimmen.',
+    'cookie_accept' => 'Akzeptieren',
+    'cookie_reject' => 'Ablehnen',
+    'cookie_settings' => 'Cookie-Einstellungen',
 ];

@@ -169,4 +169,10 @@ return [
     'ad_text' => 'Bu, ödənişli reklamdır; məzmununa görə Acıbadem Qlobal Baş Ofisi məsuliyyət daşıyır və onun yerləşdirilməsi nəşr tərəfindən təsdiq demək deyil. Bu məlumat bütün dünyada səhiyyə mütəxəssisləri və mütəxəssis rəyi almağı düşünən pasiyentlər üçün nəzərdə tutulub. Yalnız ümumi məlumatdır və tibbi məsləhət və ya müalicə tövsiyəsi deyil; uyğunluq qiymətləndirmədən sonra fərdi olaraq müəyyən edilir. Təcili hallarda yerli təcili yardım xidmətlərinə müraciət edin.',
     'mbar_form' => 'Müraciət forması',
     'mbar_call' => 'Zəng et',
+
+    // Cookie consent
+    'cookie_text' => 'Bu səhifədən necə istifadə edildiyini anlamaq üçün analitik kukilərdən istifadə edirik. Onlar yalnız razılıq versəniz yerləşdirilir.',
+    'cookie_accept' => 'Qəbul et',
+    'cookie_reject' => 'İmtina et',
+    'cookie_settings' => 'Kuki ayarları',
 ];
